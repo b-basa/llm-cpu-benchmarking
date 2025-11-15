@@ -4,5 +4,5 @@
         "Qwen/Qwen3-1.7B-GGUF:Q8_0"
     ],
     "cache_folder": "models",
-    "llamacpp_folder": "llama-b6800-bin-win-cpu-x64"
+    "llamacpp_folder": "llama-b7071-bin-win-cpu-x64"
 }
