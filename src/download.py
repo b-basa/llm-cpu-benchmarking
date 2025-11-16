@@ -3,15 +3,25 @@ import threading
 
 from src.config import BenchmarkConfig
 from src.constants import SERVER_EXECUTABLE
+from src.utilities import get_cached_models, huggingface_path_to_file_name
 
 
 def download_models_from_config(config: BenchmarkConfig, env: dict) -> None:
+    cached_models = [name.lower() for name in get_cached_models()]
     for model_name in config.model_names:
-        download_model(config, env, model_name)
+        if any(
+            [
+                cached.startswith(huggingface_path_to_file_name(model_name))
+                for cached in cached_models
+            ]
+        ):
+            print(f"{model_name} was already downloaded.")
+        else:
+            download_model(config, env, model_name)
 
 
 def download_model(config: BenchmarkConfig, env: dict, model_name: str):
-    print(f"Validating download {model_name}")
+    print(f"Downloading {model_name}")
     #  Run server to download model, slight hack
     p = subprocess.Popen(
         args=[

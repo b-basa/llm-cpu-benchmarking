@@ -1,6 +1,6 @@
 from glob import glob
 from pathlib import Path
-import sys
+
 from src.config import BenchmarkConfig
 from src.constants import CACHE_FOLDER
 
@@ -11,22 +11,29 @@ def find_model_paths(config: BenchmarkConfig):
     }
 
     cache_folder = Path(CACHE_FOLDER)
-    files_in_cache = set(glob("*.gguf", root_dir=cache_folder))
+    files_in_cache = get_cached_models(cache_folder)
 
-    files_matched = set()
-    for file in files_in_cache:
-        file_path = cache_folder / file
-        if any(
-            [file.lower().startswith(model_name) for model_name in file_names_to_find]
-        ):
-            files_matched.add(file_path)
+    files_matched: list[Path] = []
+    for name_to_find in file_names_to_find:
+        file_matches = [
+            Path(CACHE_FOLDER) / file_name
+            for file_name in files_in_cache
+            if file_name.lower().startswith(name_to_find)
+        ]
+        if file_matches:
+            files_matched.append(file_matches[0])
 
     if len(file_names_to_find) != len(files_matched):
         print(f"Some models were not found under {cache_folder}")
         print(f"Searched -> {file_names_to_find}")
         print(f"Found    -> {[c.name for c in files_matched]}")
-        print(f"Make sure only .gguf files are downloaded")
+        print(f"Make sure the models exist on huggingface")
+        print(f"Make sure only .gguf files are used")
     return files_matched
+
+
+def get_cached_models(cache_folder: Path = Path(CACHE_FOLDER)):
+    return set(glob("*.gguf", root_dir=cache_folder))
 
 
 def huggingface_path_to_local_path(model_name: str):
