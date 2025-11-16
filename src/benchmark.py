@@ -1,6 +1,8 @@
 import multiprocessing
 import subprocess
 import threading
+from datetime import datetime
+from pathlib import Path
 
 from src.config import BenchmarkConfig
 from src.constants import BENCH_EXECUTABLE
@@ -8,9 +10,12 @@ from src.utilities import find_model_paths
 
 
 def monitor_and_log_benchmark(proc):
-    for line in proc.stdout:
-        decoded_line = line.decode("utf-8").strip().lower()
-        print(decoded_line)
+    log_path = Path(datetime.now().strftime("%Y-%m-%d_%H-%M-%S.log"))
+    with open(log_path, mode="w", encoding="utf-8") as f:
+        for line in proc.stdout:
+            decoded_line = line.decode("utf-8").strip().lower()
+            print(decoded_line)
+            print(decoded_line, file=f)
 
 
 def run_benchmarks_from_config(config: BenchmarkConfig, env: dict) -> None:
