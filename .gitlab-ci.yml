@@ -7,5 +7,4 @@ gitlab-pages:
     script:
         - mkdir -p public
         - echo '<!DOCTYPE html><html><body><img src="report.png"></body></html>' > public/index.html
-        - cp index.html public/
     pages: true
