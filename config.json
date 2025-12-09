@@ -1,8 +1,0 @@
-{
-    "model_names": [
-        "Qwen/Qwen3-0.6B-GGUF:Q8_0",
-        "Qwen/Qwen3-1.7B-GGUF:Q8_0"
-    ],
-    "cache_folder": "models",
-    "llamacpp_folder": "llama-b7071-bin-win-cpu-x64"
-}

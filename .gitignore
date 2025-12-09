@@ -1,6 +1,15 @@
-models
 !models/.empty
+!logs/.empty
 llama*/
+*.md
+*.sql
+*.csv
+*.json
+*.jsonl
+*.gguf
+*.7z
+*.zip
+*.rar
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
