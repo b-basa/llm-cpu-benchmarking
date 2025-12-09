@@ -4,7 +4,9 @@ stages:
 gitlab-pages:
     when: manual
     stage: deploy
+    image: alpine:latest
     script:
         - mkdir -p public
+        - cp report.png public/report.png
         - echo '<!DOCTYPE html><html><body><img src="report.png"></body></html>' > public/index.html
     pages: true
